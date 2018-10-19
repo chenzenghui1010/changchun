@@ -103,7 +103,7 @@
         
       } else {
         
-        localStorage.getItem('carNo').length ==8?this.activeIndex = 1 : this.activeIndex = 0
+        localStorage.getItem('carNo').length == 8 ? this.activeIndex = 1 : this.activeIndex = 0
         
         this.carno = localStorage.getItem('carNo')
         
@@ -137,14 +137,7 @@
       
     },
     watch: {
-      
-      // begininput: function (val) {
-      //
-      //   if (val) {
-      //
-      //     this.begininput = !this.showCarNoList
-      //   }
-      // },
+ 
       activeIndex: function (val) {
         
         if (val == 1) {
@@ -162,18 +155,18 @@
       
       carno: function (newvalue) {
         
-        if ((this.count == 7 && newvalue.length == 7)||(this.count == 8 && newvalue.length == 8)  ) {
+        if ((this.count == 7 && newvalue.length == 7) || (this.count == 8 && newvalue.length == 8)) {
           
-            this.begininput = false
+          this.begininput = false
           
-        }else{
+        } else {
           
           this.carNoListIndex = -1
-  
+          
           this.showCarNoList = false
         }
         
-        //
+        
         //   this.begininput = false
         //
         // }  else{
@@ -183,7 +176,7 @@
         //   this.showCarNoList = false
         // }
         
-          // else if (this.count == 8) {
+        // else if (this.count == 8) {
         //
         //   newvalue.length == 8 ? this.disabled = false : this.disabled = true
         // }
@@ -199,11 +192,11 @@
       },
       
       specialCarNo: function (val) {
-
+        
         this.specialCarNo = val.toUpperCase()
-
+        
         val.trim().length > 5 ? this.enable = true : this.enable = false
-
+        
         val.trim().length > 5 ? this.disabled = false : this.disabled = true
       }
     },
@@ -220,7 +213,7 @@
         
       },
       commit() {
-        if (( this.carno.length != 7 && this.activeIndex ==0) || ( this.carno.length != 8 && this.activeIndex ==1  ) ) {
+        if ((this.carno.length != 7 && this.activeIndex == 0) || (this.carno.length != 8 && this.activeIndex == 1)) {
           
           Toast('车牌格式输入有误');
           
@@ -235,8 +228,13 @@
         }
         
         localStorage.setItem('carNo', this.carno)
-        
-        this.carNoList.push(this.carno)
+  
+  
+        if (!this.carNoList.includes(this.carno)) {
+          
+          this.carNoList.push(this.carno)
+          
+        }
         
         console.log(this.carNoList);
         
@@ -253,17 +251,17 @@
       },
       selectCarNo(val, index) {
         
-        if(val.length ==8){
-
+        if (val.length == 8) {
+          
           this.showCarNoList = true
           
           this.activeIndex = 1
           
           this.begininput = false
-  
+          
           this.inputindex = 8
-
-        }else{
+          
+        } else {
           this.inputindex = 7
           this.activeIndex = 0
         }
@@ -316,7 +314,9 @@
       deleteletter() {
         
         this.inputindex = Math.max(0, this.inputindex - 1)
+        
         console.log(this.inputindex);
+        
         this.carno = this.carno.substr(0, this.inputindex)
       },
       selectletter: function (value) {
@@ -354,13 +354,13 @@
         
         if (localStorage.getItem('carNoList') != null) {
           
-          let a = localStorage.getItem('carNoList').split(',')
+          let arr = localStorage.getItem('carNoList').split(',')
           
-          return (a.length > 3 ? a.slice(-3) : a)
+          return  Array.from(new Set (arr.length > 3 ? arr.slice(-3) : arr))
         }
         return []
+        
       },
-      
       
       inputtype: function () {
         
@@ -373,7 +373,6 @@
           
           return 2
         }
-        
         
         if (this.activeIndex == 0) {
           
@@ -604,7 +603,6 @@
     -webkit-justify-content: center;
     align-items: center;
     -webkit-align-items: center;
-    font-family: PingFangSC-Regular;
     font-size: 1.2rem;
     color: #636363;
   }

@@ -6,8 +6,6 @@
           <p>长春欧亚汇集</p>
           <p>{{carNO}}</p>
         </div>
-        
-        
         <div class="details">
           <ul>
             <li>
@@ -22,6 +20,7 @@
               <p>{{ stayTime}}</p>
             </li>
           </ul>
+          
         </div>
         
         <div class="paydate">
@@ -58,7 +57,7 @@
         
         startTime: '2018/08/21',
         outTime: '10：21',
-        carNO: '沪A8888',
+        carNO: localStorage.getItem('carNo'),
         vipIntegralDate: 0,
         integralDate:0,
         countIntegral
@@ -133,11 +132,6 @@
     box-shadow: 0 2px 14px 0 rgba(39, 52, 125, 0.10);
     border-radius: 1.5rem;
     background: url("../assets/bg_top.png")  #fff no-repeat top /100% 1.5rem;
-    /*overflow: hidden;*/
-  }
-  
-  content {
-    box-sizing: border-box;
   }
   
   content .paytitle {
@@ -163,33 +157,33 @@
     position: relative;
     display: flex;
     justify-content: center;
-  }
   
+  
+    
+  }
   .details:before  {
-    display: block;
     content: '';
-    width: 2rem;
-    height: 2rem;
     position: absolute;
-    border-radius: 50%;
-    background: #F0EFF6;
-    bottom: -1rem;
-    left: -1rem;
+    width: 2rem;
+    height: 4rem;
+    bottom: -2rem;
+    right: -1rem;
+    transform: rotate(180deg);
+    background: url("../assets/yuan.png")  no-repeat center/100% 100%;
   }
   
   .details:after {
-    
     content: '';
-    width: 2rem;
-    height: 2rem;
     position: absolute;
-    border-radius: 50% ;
-    background: #F0EFF6;
-    bottom: -1rem;
-    right: -1rem;
+    width: 2rem;
+    height: 4rem;
+    bottom: -2rem;
+    left: -1rem;
+    background: url("../assets/yuan.png")  no-repeat center/100% 100%;
   }
   
   .details ul {
+    
     width: 88%;
     height: 8.75rem;
     box-sizing: border-box;
@@ -237,10 +231,7 @@
   }
   .paydate {
     height: 8rem;
-    text-align: center;
-    width: 88%;
-    padding: 2rem 0 3.5rem 0;
-    margin: 0rem 5%;
+    padding: 2rem 1.5rem 3.5rem 1.5rem;
     color: #636363;
   }
   
