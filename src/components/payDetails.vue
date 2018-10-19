@@ -1,13 +1,13 @@
 <template>
   <div class="main">
-    <header></header>
     <div class="content">
-      
       <content>
         <div class="paytitle">
           <p>长春欧亚汇集</p>
           <p>{{carNO}}</p>
         </div>
+        
+        
         <div class="details">
           <ul>
             <li>
@@ -25,23 +25,23 @@
         </div>
         
         <div class="paydate">
-          <p>需 缴 费<span> ￥12.00</span></p>
+          <p><span>需缴费</span><span>
+            ￥12.00</span></p>
           <div class="tingche">
             <div>停车费：￥12.00</div>
             <div class="vip">
               <P>贵宾卡抵扣：<span>-{{ vipIntegralDate }}小时</span></P>
               <P>消费抵扣：<span>-{{ integralDate }}小时</span></P>
             </div>
-          
           </div>
-        
         </div>
+        <footer>
+          <button @click="commitPay">立即支付</button>
+        </footer>
       </content>
-      <footer>
-        <!--<p @click="selectIntegral"><span :class="{jifen:select}"></span>积分抵扣（小时）</p>-->
-        <!--<p>500积分抵扣1小时,共{{countIntegral}}积分,<span v-if="countIntegral >= 500">抵用后剩余{{remainingIntegral }}积分</span><span class="red" v-if="countIntegral<500">积分不够无法抵扣</span></p>-->
-        <button @click="commitPay">立即支付</button>
-      </footer>
+      <!--<footer>-->
+        <!--<button @click="commitPay">立即支付</button>-->
+      <!--</footer>-->
     </div>
     <p>缴费后请在20分钟内离场，超时将重新计费</p>
   </div>
@@ -105,20 +105,6 @@
       stayTime() {
         return myGetTime('2018-02-02 10:25', '2018-02-03 10:11')
       }
-      
-      // remainingIntegral() {
-      //
-      //   return this.countIntegral >= 500 ? this.countIntegral % 500 : this.countIntegral
-      // },
-      // select() {
-      //
-      //   return this.countIntegral >= 500 ? true : false
-      //
-      // },
-      // integralDate(){
-      //
-      //   return    Math.floor( this.countIntegral / 500)
-      // }
     }
   }
 </script>
@@ -130,6 +116,9 @@
   }
   
   .main {
+    /*font-family: PingFangSC-Regular;*/
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     right: 0;
@@ -137,124 +126,138 @@
     height: 100%;
     background: #F0EFF6;
     box-sizing: border-box;
-    padding: 4% 5% 0 5%;
+    padding: 4% 2.5rem 0 2.5rem;
   }
   
   .main .content {
-    background: #fff;
     box-shadow: 0 2px 14px 0 rgba(39, 52, 125, 0.10);
-    border-radius: 0rem 0rem 1rem 1rem;
-    
+    border-radius: 1.5rem;
+    background: url("../assets/bg_top.png")  #fff no-repeat top /100% 1.5rem;
+    /*overflow: hidden;*/
   }
   
   content {
     box-sizing: border-box;
-    padding: 3%;
-  }
-  
-  header {
-    
-    width: 100%;
-    height: 4%;
-    background: url("../assets/bg_top.png") no-repeat top /100% 100%;
   }
   
   content .paytitle {
     text-align: center;
-    
+    margin-top: 3rem;
   }
   
   content .paytitle p:first-child {
-    font-family: PingFangSC-Regular;
-    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    font-size: 2.4rem;
     color: #000;
   }
   
   content .paytitle p:last-child {
-    font-family: PingFangSC-Regular;
-    font-size: 0.9rem;
+    font-size: 1.8rem;
     color: #636363;
     letter-spacing: 0;
-    margin: 1.2rem 0 1.7rem 0;
+    margin: 2.5rem 0 3.5rem 0;
   }
   
   .details {
-    width: 90%;
-    margin: 0 auto;
-    border-top: 1px dashed #ccc;
-    border-bottom: 1px dashed #ccc;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .details:before  {
+    display: block;
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    border-radius: 50%;
+    background: #F0EFF6;
+    bottom: -1rem;
+    left: -1rem;
+  }
+  
+  .details:after {
     
-  }
-  
-  .content:before {
     content: '';
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
     position: absolute;
-    left: 2%;
-    top: 14.8rem;
-    border-radius: 50%;
+    border-radius: 50% ;
     background: #F0EFF6;
-  }
-  
-  .content:after {
-    content: '';
-    width: 1.5rem;
-    height: 1.5rem;
-    position: absolute;
-    right: 2%;
-    border-radius: 50%;
-    top: 14.8rem;
-    background: #F0EFF6;
+    bottom: -1rem;
+    right: -1rem;
   }
   
   .details ul {
-    height: 4.5rem;
+    width: 88%;
+    height: 8.75rem;
+    box-sizing: border-box;
+    padding: 2rem 6% 2.3rem 6%;
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
     display: flex;
     display: -webkit-flex;
     justify-content: space-between;
     align-content: space-between;
-    padding: 1rem 0;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 1rem;
+    
   }
-  
+  .details ul li p{
+    display: flex;
+    align-items: center;
+  }
   .details ul li {
     line-height: 2rem;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
+
   
   .details ul li p:last-child {
-    font-family: PingFangSC-Regular;
-    font-size: 1rem;
+    font-size: 1.4rem;
     color: #4A4A4A;
+    margin-top: 0.5rem;
   }
   
   .details ul li span:first-child {
     display: inline-block;
     width: 0.5rem;
     height: 0.5rem;
+    margin-right: 0.5rem;
     border-radius: 50%;
     background: #4A90E2;
-    margin-right: 0.2rem;
   }
   .details ul li span:last-child {
     color: #9B9B9B;
   }
   .paydate {
-    height: 4rem;
+    height: 8rem;
     text-align: center;
-    width: 90%;
-    padding: 1rem 0 2rem 0;
+    width: 88%;
+    padding: 2rem 0 3.5rem 0;
     margin: 0rem 5%;
     color: #636363;
   }
   
   .paydate > p {
-    font-size: 1rem;
-  }
-  
-  .paydate > p > span {
-    color: #63C8A9;
     font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .paydate > p>span{
+    display: block;
+    font-size: 1.4rem;
+  }
+  .paydate > p > span:last-child {
+    color: #63C8A9;
+    font-size: 2.4rem;
+    margin-left: 0.5rem;
   }
   
   .paydate .tingche {
@@ -262,8 +265,9 @@
     display: flex;
     justify-content: space-between;
     align-content: space-between;
-    margin: 1rem 10% 0 10%;
+    margin: 1.5rem 10% 0 10%;
     color: #636363;
+  
   }
   
   .paydate .tingche .vip {
@@ -272,17 +276,21 @@
   
   .paydate .tingche .vip p:last-child {
     margin-top: 0.5rem;
+    font-size: 1.2rem;
   }
-  
+  .tingche > div, .vip p {
+    font-size: 1.2rem;
+  }
   .paydate div p > span {
     color: #63C8A9;
+    font-size: 1.2rem;
   }
   
   footer {
-    padding: 4rem 0 1rem;
-    width: 90%;
+    padding: 5.6rem  0 0 0;
+    width: 88%;
     border-top: 1px dashed #ccc;
-    margin-left: 5%;
+    margin-left: 6%;
     align-content: space-around;
     
   }
@@ -312,14 +320,15 @@
   }
   
   button {
+    margin-bottom: 2.5rem;
     width: 100%;
-    height: 3rem;
+    height: 4.5rem;
     border: none;
     background: #64C6E7;
     box-shadow: 0 5px 12px 0 rgba(217, 226, 233, 0.50);
-    border-radius: 0.3rem;
+    border-radius: 0.5rem;
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     outline: none;
   }
   
@@ -327,15 +336,8 @@
     margin-top: 0.5rem;
     text-align: center;
     color: #9B9B9B;
-    font-size: 0.7rem;
+    font-size: 1rem;
   }
   
-  /*.jifen {*/
-  /*border: none !important;*/
-  /*background: #63C8A9;*/
-  /*}*/
-  /*.red{*/
-  /*color: orangered;*/
-  /*}*/
 </style>
 

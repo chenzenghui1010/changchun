@@ -18,5 +18,7 @@
     list-style: none;
     tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family: PingFangSC-Regular ;
   }
+  
 </style>

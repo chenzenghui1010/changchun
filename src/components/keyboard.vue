@@ -135,6 +135,7 @@
   
   .keyboard {
     position: absolute;
+    z-index: 666;
     text-align: center;
     background-color:#FFF;
     bottom: 0;
@@ -144,7 +145,10 @@
     padding: 2% 0;
     box-shadow: 0 -2px 4px 0 rgba(0,0,0,0.20);
   }
-  
+  .container{
+    box-sizing: border-box;
+    padding:  1.5rem  0  2rem  0;
+  }
   .line {
     display: flex;
     display: -webkit-flex;
@@ -156,13 +160,13 @@
   
   .item {
     color: #333;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     background: #FFF;
     box-shadow: 0 0 3px 0 #C8C8C8;
-    height: 2.5rem;
+    height: 4rem;
     width: 8%;
-    line-height: 2.5rem;
-    border-radius: 6px;
+    line-height: 4rem;
+    border-radius: 0.2rem;
     margin:  1.2%;
   }
   
@@ -179,7 +183,7 @@
     padding: 2% 0;
     position: absolute;
     width: 10%;
-    height: 2.5rem;
+    height: 4rem;
     font-size: 1.5rem;
     right: 0.4rem;
     border-radius: 10px;
