@@ -51,14 +51,13 @@
 <script>
   import Carnokeyboard from "./keyboard.vue";
   import userNotice from './UserNotice'
-  import btn from './BtnBox'
   import {Indicator} from 'mint-ui';
   
   import {Toast} from 'mint-ui';
   
   export default {
     name: 'CarNoInput',
-    components: {Carnokeyboard, userNotice, btn},
+    components: {Carnokeyboard, userNotice},
     data() {
       return {
         carType: [{cartype: '普通车'}, {cartype: '新能源车'}],
@@ -116,7 +115,6 @@
       
       if (!(this.carno == '' || this.carno == null)) {
         
-        // this.begininput = false
         
         this.inputindex = 7
       }
@@ -130,7 +128,6 @@
         
         this.carno = localStorage.getItem('carNo')
         
-        // this.begininput = false
         
         this.disabled = false
       }
@@ -166,24 +163,6 @@
           this.showCarNoList = false
         }
         
-        
-        //   this.begininput = false
-        //
-        // }  else{
-        //
-        //   this.carNoListIndex = -1
-        //
-        //   this.showCarNoList = false
-        // }
-        
-        // else if (this.count == 8) {
-        //
-        //   newvalue.length == 8 ? this.disabled = false : this.disabled = true
-        // }
-        
-        // this.enable = newvalue.length > 6
-        //
-        // this.newValue == 7 ? this.disabled = false : this.disabled = true
       },
       
       newresourcecar: function (newvalue) {
@@ -269,10 +248,7 @@
         this.begininput = false
         
         this.showCarNoList = true
-        // console.log(val);
-        // let newcarNo = val.replace('-', '')
-        // console.log(newcarNo);
-        
+    
         this.carno = val
         
         this.carNoListIndex = index
@@ -393,17 +369,6 @@
         
         if (this.activeIndex == 1) {
           
-          // if (this.inputindex == 7) {
-          //
-          //   this.enable = false
-          //
-          //   this.disabled = true
-          //
-          //   this.begininput = true
-          //
-          //   return 3
-          // }
-          
           if (this.inputindex == 8) {
             
             this.enable = true
@@ -417,7 +382,6 @@
         return 2
       },
     },
-    
   }
 </script>
 
@@ -485,7 +449,6 @@
     border-radius: 50%;
     background: #fff;
     margin-right: 1rem;
-    
   }
   
   header p:nth-child(2) {
