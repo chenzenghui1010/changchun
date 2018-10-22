@@ -1,14 +1,14 @@
 <template>
   <div class="main">
     <div class="isshowkey" v-if="begininput" @click="isShowKey"></div>
-    <div class="top"></div>
     
-    <div class="con">
+    <div class="content">
+      <div class="top"></div>
       <header>
         <p><span></span>长春欧亚汇集</p>
         <p></p>
       </header>
-      <div class="content">
+      <div class="contenttext">
         <div class="cartitle">
           <ul>
             <li v-for=" (item,index) in  carType" :class="{carType:activeIndex== 0 ,newcarType :activeIndex ==1}"
@@ -36,28 +36,29 @@
           </ul>
         </div>
       </div>
-      <button @click="commit">车牌缴费</button>
+      <!--<button @click="commit">车牌缴费</button>-->
+      <btn btnText="车牌缴费" @submit="submit"></btn>
       <user-notice></user-notice>
+      <carnokeyboard v-on:select="selectletter"
+                     v-on:delete="deleteletter"
+                     v-show="begininput"
+                     v-bind:inputtype="inputtype">
+      
+      </carnokeyboard>
     </div>
-    
-    <carnokeyboard v-on:select="selectletter"
-                   v-on:delete="deleteletter"
-                   v-show="begininput"
-                   v-bind:inputtype="inputtype">
-    
-    </carnokeyboard>
   </div>
 </template>
 <script>
   import Carnokeyboard from "./keyboard.vue";
   import userNotice from './UserNotice'
+  import btn from './BtnBox'
   import {Indicator} from 'mint-ui';
   
   import {Toast} from 'mint-ui';
   
   export default {
     name: 'CarNoInput',
-    components: {Carnokeyboard, userNotice},
+    components: {Carnokeyboard, userNotice,btn},
     data() {
       return {
         carType: [{cartype: '普通车'}, {cartype: '新能源车'}],
@@ -134,7 +135,7 @@
       
     },
     watch: {
- 
+      
       activeIndex: function (val) {
         
         if (val == 1) {
@@ -191,7 +192,7 @@
         this.begininput = false
         
       },
-      commit() {
+      submit() {
         if ((this.carno.length != 7 && this.activeIndex == 0) || (this.carno.length != 8 && this.activeIndex == 1)) {
           
           Toast('车牌格式输入有误');
@@ -207,8 +208,8 @@
         }
         
         localStorage.setItem('carNo', this.carno)
-  
-  
+        
+        
         if (!this.carNoList.includes(this.carno)) {
           
           this.carNoList.push(this.carno)
@@ -248,7 +249,7 @@
         this.begininput = false
         
         this.showCarNoList = true
-    
+        
         this.carno = val
         
         this.carNoListIndex = index
@@ -414,17 +415,24 @@
   }
   
   .top {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 17.5rem;
     background: #64C6E7;
+    z-index: -1;
+    
   }
   
-  .con {
+  .content {
     display: flex;
+    display: -webkit-flex;
     flex-direction: column;
-    position: absolute;
+    -webkit-flex-direction: column;
     width: 92%;
     margin-top: 2.5rem;
+    
   }
   
   header {
@@ -457,7 +465,7 @@
     background: url("../assets/car.png") no-repeat center/ 100% 100%;
   }
   
-  .content {
+  .contenttext {
     box-sizing: border-box;
     padding: 2.5rem 0;
     display: flex;
@@ -488,14 +496,12 @@
     box-sizing: border-box;
     width: 9rem;
     line-height: 3.5rem;
-    text-align: center;
     font-size: 1.2rem;
   }
   
   .inputitem {
     box-sizing: border-box;
     padding: 0 1.5rem;
-    box-sizing: border-box;
     height: 4.3rem;
     width: 100%;
     display: flex;
@@ -609,18 +615,5 @@
     color: #fff;
     border-radius: 0 0.5rem 0.5rem 0;
   }
-  
-  button {
-    margin-top: 1.5rem;
-    height: 4.5rem;
-    width: 100%;
-    background: #64C6E7;
-    border: none;
-    box-shadow: 0 5px 12px 0 rgba(217, 226, 233, .5);
-    border-radius: 0.5rem;
-    outline: none;
-    color: #fff;
-    font-size: 1.6rem;
-    letter-spacing: 0.1rem;
-  }
+
 </style>

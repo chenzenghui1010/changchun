@@ -20,7 +20,7 @@
               <p>{{ stayTime}}</p>
             </li>
           </ul>
-          
+        
         </div>
         
         <div class="paydate">
@@ -35,12 +35,9 @@
           </div>
         </div>
         <footer>
-          <button @click="commitPay">立即支付</button>
+          <btn btnText="立即支付" @submit="pay"></btn>
         </footer>
       </content>
-      <!--<footer>-->
-        <!--<button @click="commitPay">立即支付</button>-->
-      <!--</footer>-->
     </div>
     <p>缴费后请在20分钟内离场，超时将重新计费</p>
   </div>
@@ -50,8 +47,10 @@
   import {myGetTime, timestampToTime} from '../Time'
   import {Indicator} from 'mint-ui';
   import {Toast} from 'mint-ui';
+  import btn from './BtnBox'
   
   export default {
+    components:{btn},
     data() {
       return {
         
@@ -61,12 +60,12 @@
         vipIntegralDate: 0,
         integralDate:0,
         countIntegral
-    :
-      1400,
+          :
+          1400,
         remaining
-    :
-      0
-    }
+          :
+          0
+      }
     },
     mounted() {
     
@@ -78,7 +77,7 @@
     },
     
     methods: {
-      commitPay() {
+      pay() {
         Toast('加载中');
         this.$router.push({path: 'paySuccess'})
         // Indicator.open({
@@ -115,7 +114,6 @@
   }
   
   .main {
-    /*font-family: PingFangSC-Regular;*/
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -157,8 +155,8 @@
     position: relative;
     display: flex;
     justify-content: center;
-  
-  
+    
+    
     
   }
   .details:before  {
@@ -210,7 +208,7 @@
     justify-content: center;
     align-items: center;
   }
-
+  
   
   .details ul li p:last-child {
     font-size: 1.4rem;
@@ -258,7 +256,7 @@
     align-content: space-between;
     margin: 1.5rem 10% 0 10%;
     color: #636363;
-  
+    
   }
   
   .paydate .tingche .vip {
@@ -278,7 +276,7 @@
   }
   
   footer {
-    padding: 5.6rem  0 0 0;
+    padding: 4.1rem  0 2.5rem 0;
     width: 88%;
     border-top: 1px dashed #ccc;
     margin-left: 6%;
@@ -286,42 +284,6 @@
     
   }
   
-  footer p {
-    display: flex;
-    font-size: 0.8rem;
-  }
-  
-  footer p:first-child span {
-    display: inline-block;
-    width: 0.9rem;
-    height: 0.9rem;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-  }
-  
-  footer p:nth-child(2) {
-    color: #ccc;
-    font-size: 0.7rem;
-    margin: 0.5rem 0 1rem 1.5rem;
-  }
-  
-  footer p:last-child span:last-child {
-    color: red;
-  }
-  
-  button {
-    margin-bottom: 2.5rem;
-    width: 100%;
-    height: 4.5rem;
-    border: none;
-    background: #64C6E7;
-    box-shadow: 0 5px 12px 0 rgba(217, 226, 233, 0.50);
-    border-radius: 0.5rem;
-    color: #fff;
-    font-size: 1.6rem;
-    outline: none;
-  }
   
   .main > p:last-child {
     margin-top: 0.5rem;
@@ -329,6 +291,6 @@
     color: #9B9B9B;
     font-size: 1rem;
   }
-  
+
 </style>
 

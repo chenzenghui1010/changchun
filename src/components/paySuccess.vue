@@ -9,15 +9,18 @@
         <!--<span v-if="!shoeDate">你已超时</span>-->
       </p>
     </div>
-    
-    <button v-text='btnText'></button>
+    <footer>
+      <btn :btnText="btnText" @submit="confirm"></btn>
+    </footer>
   </div>
 </template>
 
 
 <script>
+  import btn from './BtnBox'
   
   export default {
+    components: {btn},
     data() {
       return {
         details: '成功',
@@ -29,7 +32,7 @@
       }
     },
     mounted() {
-      // this.add();
+      // this.getCount();
       if (this.detailsType == 1) {
         this.details = '失败'
         this.detailsYu = '对您带来的不便，敬请谅解！'
@@ -39,7 +42,10 @@
       
     },
     methods: {
-      add: function () {
+      confirm() {
+        alert(0)
+      },
+      getCount: function () {
         
         const time = window.setInterval(() => {
           
@@ -84,6 +90,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+    padding: 0 6%;
   }
   
   .floor {
@@ -120,12 +128,14 @@
     font-size: 1.2rem;
     color: #C2C6DA;
   }
+  
   .main > div:nth-child(2) {
     height: 17.5rem;
     line-height: 17.5rem;
   }
+  
   .main > div > .date {
-   
+    
     font-size: 1.4rem;
   }
   
@@ -139,17 +149,9 @@
     justify-content: center;
   }
   
-  button {
-    width: 90%;
-    height: 4.5rem;
-    border: none;
-    background: #64C6E7;
-    box-shadow: 0 5px 12px 0 rgba(217, 226, 233, 0.50);
-    border-radius: 0.5rem;
-    color: #fff;
-    font-size: 1.6rem;
-    outline: none;
+  footer {
+    width: 100%;
+    
   }
-
 
 </style>

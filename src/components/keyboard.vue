@@ -139,6 +139,7 @@
     text-align: center;
     background-color:#FFF;
     bottom: 0;
+    left: 0;
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
