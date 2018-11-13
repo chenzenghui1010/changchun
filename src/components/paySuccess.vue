@@ -1,85 +1,92 @@
 <template>
   <div class="main">
-    <div class="floor">
-      <p><span :class="{detailsimg :  detailsType==1}"></span>缴费{{details}}</p>
-      <p>{{ detailsYu }}</p>
+    <div class="payType">
+      <div class="floor">
+        <p><span :class="{detailsimg :  retCode==1}"></span>缴费{{details}}</p>
+        <p>{{ detailsYu }}</p>
+      </div>
+      <div v-if="retCode !=1" class="fee"><span>￥</span>{{ fee}}</div>
     </div>
-    <div>
-      <p v-if=" detailsType !=1" class="date">免费离场剩余时间 <span>{{ minutes }}分{{ seconds }}秒</span>
-        <!--<span v-if="!shoeDate">你已超时</span>-->
-      </p>
+    
+    
+    <div v-if="retCode !=1" class="content">
+      <text-box keyInfo="车牌号" :valueInfo="valueInfo"></text-box>
+      <text-box keyInfo="停车时长" :valueInfo="stayTime"></text-box>
     </div>
-    <footer>
+    
+    <div class="btn">
       <btn :btnText="btnText" @submit="confirm"></btn>
-    </footer>
+    </div>
+    
+    <div class="footer">
+      <p v-if="retCode !=1"><span>免费离场时间</span> <span>{{ minutes }}分</span></p>
+    </div>
+  
+  
   </div>
 </template>
 
 
 <script>
   import btn from './BtnBox'
+  import getQueryString from '../globalhelper'
+  import textBox from './textBox'
   
   export default {
-    components: {btn},
+    components: {btn, textBox},
     data() {
       return {
         details: '成功',
         detailsYu: '感谢您使用，祝您旅途愉快！',
         btnText: '确定',
         minutes: 20,
-        seconds: 59,
-        detailsType: 2
+        retCode: 0,
+        fee: '6.00',
+        valueInfo: localStorage.getItem('carNo'),
+        stayTime:localStorage.getItem('stayTime')
       }
     },
     mounted() {
-      // this.getCount();
-      if (this.detailsType == 1) {
+      
+      document.title = '车牌缴费'
+      
+      // let retCode = getQueryString('retCode')
+      
+      if (this.retCode == 0) {
+      
+      } else {
         this.details = '失败'
         this.detailsYu = '对您带来的不便，敬请谅解！'
         this.btnText = '重新支付'
       }
-      
-      
     },
     methods: {
       confirm() {
-        alert(0)
-      },
-      getCount: function () {
         
-        const time = window.setInterval(() => {
+        if (this.retCode == 0) {
           
-          if (this.minutes != 0 && this.seconds == 1) {
+          let ua = navigator.userAgent.toLowerCase();
+          
+          if (ua.match(/MicroMessenger/i) == "micromessenger") {
             
-            this.minutes -= 1
+            wx.closeWindow()
+            // WeixinJSBridge.call('closeWindow');//微信
             
-            this.seconds = 59
+          } else if (ua.indexOf("alipay") != -1) {
             
-          } else if (this.minutes == 0 && this.seconds == 0) {
+            AlipayJSBridge.call('closeWebview')//支付宝
             
-            this.seconds = 0
-            
-            window.clearInterval(time)
-            // return
-            
-          } else {
-            
-            this.seconds -= 1
           }
+        } else {
           
-        }, 1000)
-        //销毁
-        this.$once('hooK:beforeDestroy', () => {
-          
-          clearInterval(time)
-          
-        })
-      }
+          this.$router.push({path: '/'})
+        }
+      },
     },
     computed: {
-      shoeDate: function () {
-        return this.seconds == 0 && this.minutes == 0 ? false : true
-      }
+      // shoeDate: function () {
+      //   return this.seconds == 0 && this.minutes == 0 ? false : true
+      // }
     }
   }
 </script>
@@ -87,11 +94,14 @@
   
   .main {
     background: #fff;
+  }
+  
+  .payType {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
-    padding: 0 6%;
+    height: 19rem;
   }
   
   .floor {
@@ -101,9 +111,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    
   }
   
-  .main > .floor > P:first-child {
+  .floor P:first-child {
     font-size: 2.4rem;
     height: 3.35rem;
     display: flex;
@@ -111,7 +122,7 @@
     align-items: center;
   }
   
-  .main > .floor > P:first-child span {
+  .floor > P:first-child span {
     display: inline-block;
     margin-right: 1.5rem;
     width: 2.5rem;
@@ -123,35 +134,49 @@
     background: url("../assets/failure.png") no-repeat center/ 100% 100% !important;
   }
   
-  .main > .floor > p:last-child {
+  .btn {
+    bottom: 20rem;
+    margin-top: 5rem;
+    padding: 0 5%;
+  }
+  
+  .fee {
+    font-family: PingFangSC-Regular;
+    font-size: 1.8rem;
+    color: #63C8A9;
+    margin: 3.5rem 0;
+    
+  }
+  
+  .floor > p:last-child {
     margin-top: 1rem;
     font-size: 1.2rem;
     color: #C2C6DA;
   }
   
-  .main > div:nth-child(2) {
-    height: 17.5rem;
-    line-height: 17.5rem;
+  .footer {
+    position: absolute;
+    bottom: 2.5rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   
-  .main > div > .date {
-    
+  .footer p {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer p span {
+    display: inline-block;
     font-size: 1.4rem;
+    color:  #4A4A4A;;
   }
   
-  .main > div > .date span {
+  .footer p span:last-child {
     font-size: 1.8rem;
     color: #F5A623;
-  }
-  
-  .main > p:last-child {
-    position: fixed;
-    justify-content: center;
-  }
-  
-  footer {
-    width: 100%;
-    
+    margin-left: 1rem;
   }
 
 </style>

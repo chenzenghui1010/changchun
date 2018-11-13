@@ -36,16 +36,15 @@
           </ul>
         </div>
       </div>
-      <!--<button @click="commit">车牌缴费</button>-->
       <btn btnText="车牌缴费" @submit="submit"></btn>
       <user-notice></user-notice>
-      <carnokeyboard v-on:select="selectletter"
-                     v-on:delete="deleteletter"
-                     v-show="begininput"
-                     v-bind:inputtype="inputtype">
-      
-      </carnokeyboard>
     </div>
+    <carnokeyboard v-on:select="selectletter"
+                   v-on:delete="deleteletter"
+                   v-show="begininput"
+                   :carNoInputIndex="carNoInputIndex">
+  
+    </carnokeyboard>
   </div>
 </template>
 <script>
@@ -70,14 +69,8 @@
         begininput: false,//键盘
         count: 7,
         newresourcecar: false,
-        inputindex: 0,
         parkCode: window.parkCode,
-        url: location.href,
-        show: false,
-        alert: '',
-        disabled: true,
-        formData: {phone: "", code: '',},
-        timer: null,
+     
         
         
         specialCar: false,
@@ -94,8 +87,9 @@
       
       // localStorage.removeItem('carNoList')
       // localStorage.removeItem('carNo')
+  
       
-      document.title = '停车缴费'
+      document.title= '智慧停车'
       
       if (localStorage.getItem('carNo') == null) {
         
@@ -109,17 +103,9 @@
         
         this.begininput = false
         
-        this.disabled = false
       }
     },
     mounted() {
-      
-      if (!(this.carno == '' || this.carno == null)) {
-        
-        
-        this.inputindex = 7
-      }
-      
       if (localStorage.getItem('carNo') == null) {
         
         this.carno = ''
@@ -129,13 +115,11 @@
         
         this.carno = localStorage.getItem('carNo')
         
-        
-        this.disabled = false
       }
       
     },
     watch: {
-      
+ 
       activeIndex: function (val) {
         
         if (val == 1) {
@@ -171,14 +155,14 @@
         this.count = this.newresourcecar ? 8 : 7
       },
       
-      specialCarNo: function (val) {
-        
-        this.specialCarNo = val.toUpperCase()
-        
-        val.trim().length > 5 ? this.enable = true : this.enable = false
-        
-        val.trim().length > 5 ? this.disabled = false : this.disabled = true
-      }
+      // specialCarNo: function (val) {
+      //
+      //   this.specialCarNo = val.toUpperCase()
+      //
+      //   val.trim().length > 5 ? this.enable = true : this.enable = false
+      //
+      //   val.trim().length > 5 ? this.disabled = false : this.disabled = true
+      // }
     },
     methods: {
       
@@ -208,8 +192,8 @@
         }
         
         localStorage.setItem('carNo', this.carno)
-        
-        
+  
+  
         if (!this.carNoList.includes(this.carno)) {
           
           this.carNoList.push(this.carno)
@@ -239,17 +223,15 @@
           
           this.begininput = false
           
-          this.inputindex = 8
-          
         } else {
-          this.inputindex = 7
+          
           this.activeIndex = 0
         }
         
         this.begininput = false
         
         this.showCarNoList = true
-        
+    
         this.carno = val
         
         this.carNoListIndex = index
@@ -290,40 +272,26 @@
       },
       deleteletter() {
         
-        this.inputindex = Math.max(0, this.inputindex - 1)
-        
-        console.log(this.inputindex);
-        
-        this.carno = this.carno.substr(0, this.inputindex)
+        this.carno = this.carno.substr(0, this.carno.length ==0? 0: this.carno.length-1)
+       
       },
-      selectletter: function (value) {
-        
-        
-        if (this.count == 7) {
-          
-          if (this.carno.length == 7) {
-            
-            return
-          }
-        }
-        if (this.count == 8) {
-          
-          if (this.carno.length == 8) {
-            
-            return
-          }
+      selectletter (value) {
+  
+        if ((this.count == 7 && this.carno.length == 7)||(this.count == 8 && this.carno.length == 8)) {
+    
+          return
         }
         this.carno = this.carno + value
-        
-        this.inputindex += 1
+  
       },
+  
       Toast(val) {
         Toast({
           message: val,
           position: 'middle',
           duration: 2000
         });
-      }
+      },
     },
     computed: {
       
@@ -338,47 +306,20 @@
         return []
         
       },
+  
+      carNoInputIndex() {
+    
+        if (this.carno.length == 0) {
       
-      inputtype: function () {
-        
-        if (this.inputindex == 0) {
-          
           return 0
+      
+        } else if (this.carno.length == 1) {
+      
+          return 1
         }
-        
-        if (this.inputindex == 1) {
-          
-          return 2
-        }
-        
-        if (this.activeIndex == 0) {
-          
-          if (this.inputindex == 6) {
-            
-            return 3
-          }
-          
-          if (this.inputindex == 7) {
-            
-            this.enable = true
-            
-            this.disabled = false
-            
-            this.begininput = false
-          }
-        }
-        
-        if (this.activeIndex == 1) {
-          
-          if (this.inputindex == 8) {
-            
-            this.enable = true
-            
-            this.disabled = false
-            
-            this.begininput = false
-            
-          }
+        if((this.activeIndex ==0&&this.carno.length ==6)||(this.activeIndex ==1&&this.carno.length ==7)){
+      
+          return 3
         }
         return 2
       },
@@ -422,7 +363,7 @@
     height: 17.5rem;
     background: #64C6E7;
     z-index: -1;
-    
+   
   }
   
   .content {
@@ -432,7 +373,7 @@
     -webkit-flex-direction: column;
     width: 92%;
     margin-top: 2.5rem;
-    
+  
   }
   
   header {
@@ -615,5 +556,5 @@
     color: #fff;
     border-radius: 0 0.5rem 0.5rem 0;
   }
-
+  
 </style>

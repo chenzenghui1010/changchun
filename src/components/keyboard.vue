@@ -41,17 +41,22 @@
     
     name: 'keyboard',
     
-    props: ['inputtype'],
+    props: ['carNoInputIndex'],
+    data(){
+      return {
+        inputIndex:0
+      }
+    },
     
     computed: {
       
       unusable: function () {
         
-        if (this.inputtype == 1) {
+        if (this.carNoInputIndex == 1) {
           
           return 'count '
           
-        } else if (this.inputtype == 2) {
+        } else if (this.carNoInputIndex == 2) {
           
           return ' special '
         }
@@ -60,59 +65,58 @@
       
       items: function () {
         
-        if (this.inputtype == 0) {
+        if (this.carNoInputIndex == 0) {
           
           return keyboarditems_0
         }
         
-        if (this.inputtype == 1) {
+        if (this.carNoInputIndex == 1) {
           
           return keyboarditems_1
         }
         
-        if (this.inputtype == 2) {
+        if (this.carNoInputIndex == 2) {
           
           return keyboarditems_2
         }
         
-        if (this.inputtype == 3) {
+        if (this.carNoInputIndex == 3) {
           
           return keyboarditems_3
         }
       }
     },
     methods: {
+      
       ondelete: function () {
+        
+        this.inputIndex = Math.max(0, this.inputIndex - 1)
         
         this.$emit('delete')
       },
       
       onselect: function (value) {
         
-        if (this.inputtype == 1) {
+        if (this.carNoInputIndex == 1) {
           
           for (let i = 0; i < 10; i++) {
             
             if (value == i) {
-              
               return
             }
           }
         }
         
-        if (this.inputtype == 1 || this.inputtype == 2)
+        if ((this.carNoInputIndex == 1 || this.carNoInputIndex == 2)&& (value == '港' || value == '澳' || value == '学' || value == '领'))
           
-          if (value == '港' || value == '澳' || value == '学' || value == '领') {
-            
-            return
-          }
-        if (this.inputtype == 3 || this.inputtype == 2) {
+          return
+        
+        if ((this.carNoInputIndex == 3 || this.carNoInputIndex == 2)&& (value == '')) {
           
-          if (value == '') {
-            
-            return
-          }
+          return
         }
+        
+        this.inputIndex >=8 ? this.inputIndex = 8: this.inputIndex ++
         
         this.$emit('select', value)
       }
@@ -126,10 +130,12 @@
   .count:nth-child(2) .item:nth-child(10),
   .count:nth-child(2) .item:nth-child(9),
   .count:nth-child(3) .item:nth-child(10),
+  .count:nth-child(4) .item:nth-child(8),
   .special:nth-child(2) .item:nth-child(9),
   .special:nth-child(2) .item:nth-child(10),
   .special:nth-child(3) .item:nth-child(10),
-  .special:nth-child(4) .item:nth-child(8){
+  .special:nth-child(4) .item:nth-child(8)
+  {
     background: #e6e6e6;
   }
   

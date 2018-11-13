@@ -10,17 +10,17 @@
           <ul>
             <li>
               <p><span></span><span>入场日期</span></p>
-              <p>{{startTime}}</p>
+              <p>{{newStartDate}}</p>
             </li>
             <li>
               <p><span></span><span>入场时间</span></p>
-              <p>{{outTime}}</p></li>
+              <p>{{newStartTime}}</p></li>
             <li>
               <p><span></span><span>停车时长</span></p>
               <p>{{ stayTime}}</p>
             </li>
           </ul>
-        
+          
         </div>
         
         <div class="paydate">
@@ -29,8 +29,8 @@
           <div class="tingche">
             <div>停车费：￥12.00</div>
             <div class="vip">
-              <P>贵宾卡抵扣：<span>-{{ vipIntegralDate }}小时</span></P>
-              <P>消费抵扣：<span>-{{ integralDate }}小时</span></P>
+              <!--<P>贵宾卡抵扣：<span>-{{ vipIntegralDate }}小时</span></P>-->
+              <P>积分抵扣：<span>-{{ integralDate }}小时</span></P>
             </div>
           </div>
         </div>
@@ -48,27 +48,22 @@
   import {Indicator} from 'mint-ui';
   import {Toast} from 'mint-ui';
   import btn from './BtnBox'
-  
+
   export default {
+    
     components:{btn},
     data() {
       return {
         
-        startTime: '2018/08/21',
-        outTime: '10：21',
+        startTime: '2018-08-21 10：21',
         carNO: localStorage.getItem('carNo'),
-        vipIntegralDate: 0,
         integralDate:0,
-        countIntegral
-          :
-          1400,
-        remaining
-          :
-          0
+        countIntegral: 1400,
+        remaining: 0
       }
     },
     mounted() {
-    
+      document.title='缴费停车'
     },
     watch: {
       select: function (val) {
@@ -78,7 +73,8 @@
     
     methods: {
       pay() {
-        Toast('加载中');
+        // Toast('加载中');
+        localStorage.setItem('stayTime',this.stayTime)
         this.$router.push({path: 'paySuccess'})
         // Indicator.open({
         //   text: '加载中',
@@ -102,7 +98,13 @@
       
       stayTime() {
         return myGetTime('2018-02-02 10:25', '2018-02-03 10:11')
-      }
+      },
+      newStartDate(){
+         return  this.startTime.replace(/-/g,'/').slice(0,10)
+      },
+      newStartTime(){
+      return this.startTime.slice(-5)
+      },
     }
   }
 </script>
@@ -155,8 +157,8 @@
     position: relative;
     display: flex;
     justify-content: center;
-    
-    
+  
+  
     
   }
   .details:before  {
@@ -208,7 +210,7 @@
     justify-content: center;
     align-items: center;
   }
-  
+
   
   .details ul li p:last-child {
     font-size: 1.4rem;
@@ -256,17 +258,13 @@
     align-content: space-between;
     margin: 1.5rem 10% 0 10%;
     color: #636363;
-    
+  
   }
   
   .paydate .tingche .vip {
     text-align: right;
   }
   
-  .paydate .tingche .vip p:last-child {
-    margin-top: 0.5rem;
-    font-size: 1.2rem;
-  }
   .tingche > div, .vip p {
     font-size: 1.2rem;
   }
@@ -276,7 +274,7 @@
   }
   
   footer {
-    padding: 4.1rem  0 2.5rem 0;
+    padding: 0rem  0 1.5rem 0;
     width: 88%;
     border-top: 1px dashed #ccc;
     margin-left: 6%;
@@ -291,6 +289,6 @@
     color: #9B9B9B;
     font-size: 1rem;
   }
-
+  
 </style>
 
